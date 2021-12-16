@@ -1,22 +1,34 @@
 #include <iostream>
-
+#include<string>
+#include<string.h>
 using namespace std;
-void menu(int *choice);
+string Method = "Null", Preemptive = "OFF";
+int choice = 0;
+
+int menu();
+void MethodMenu();
+
+
 int main()
 {
-    int choice = 0, i = 0;
-    menu(&choice);
-    for(i=0;i<5;)            //for loop for make it runs until quit
+    int i = 0;
+
+
+    for(i=0;i<5;)            //for loop to make it run until quitting
 	{
-		menu(&choice);
+        choice = 0;
+		choice = menu();
 
 	    if(choice==1)
 	    {
-
+            MethodMenu();
 	    }
 	    else if (choice==2)
 	    {
-
+            if(Preemptive == "OFF")
+            Preemptive =  "ON";
+            else if(Preemptive == "ON")
+            Preemptive =  "OFF";
 		}
 	    else if(choice==3)
 	    {
@@ -31,9 +43,33 @@ int main()
 	}
     return 0;
 }
-void menu(int *choice)
+int menu() //menu function
 {
-    cout<<endl<<"Menu {CPU Scheduler Simulator}:\n\n1- Scheduling Method (None)\n\n2- Preemptive Method (Off)\n\n3- Show Result\n\n4- End Program\n";
-    cin>>*choice;
+    cout<<endl<<"Menu {CPU Scheduler Simulator}:\n\n1- Scheduling Method ("<<Method<<")\n\n2- Preemptive Method ("<<Preemptive<<")\n\n3- Show Result\n\n4- End Program\n";
+    int x;
+    cin>>x;
+    return x;
 }
 
+void MethodMenu()
+{
+    cout<<"Choose A Scheduling Method By Number:- \n1-First Come First Serve \n2-Shortest Job First \n3-Priority \n4-Round Robin";
+    int num;
+    cin>>num;
+    if (num == 1)
+    {
+        Method = "FCFS";
+    }
+    else if(num == 2)
+    {
+        Method = "SJF";
+    }
+    else if(num == 3)
+    {
+        Method = "Priority";
+    }
+    else if(num == 4)
+    {
+        Method = "RR";
+    }
+}
