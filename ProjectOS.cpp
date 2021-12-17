@@ -113,8 +113,9 @@ void FCFS()
     {
         if ( isdigit(x) )
         {
-
-            header=insertFront(header,x);
+            int ix = x - '0';
+            int y;
+            header=insertFront(header,ix);
         }
 
     }
