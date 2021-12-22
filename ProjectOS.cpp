@@ -12,7 +12,8 @@ using namespace std;
 string Method = "Null", Preemptive = "OFF";
 int choice = 0;
 
-// Linked List Declaration
+
+// Linked List Declaration (start)
 typedef struct node{
 	int data;
 	struct node *next; // i think without struct
@@ -32,7 +33,7 @@ void display(struct node *);
 int menu();
 void MethodMenu();
 void FCFS();
-
+void SJF();
 
 int main()
 {
@@ -62,6 +63,10 @@ int main()
             if (Method == "FCFS")
             {
                 FCFS();
+            }
+            else if (Method == "SJF")
+            {
+                SJF();
             }
 		}
 		else if(choice==4)
@@ -109,18 +114,137 @@ void FCFS()
     ifstream createFile("Inputs.txt");
     node *header = NULL;
     char x;
-    while(createFile.get(x))
+    while(createFile.get(x)) //read every char in a file
     {
-        if ( isdigit(x) )
+        if ( isdigit(x) ) // to ignore :
         {
-            int ix = x - '0';
-            int y;
-            header=insertFront(header,ix);
+            int ix = x - '0'; //to convert char to int
+            header=insertBack(header,ix);
         }
 
     }
+
     display(header);
+    cout<<endl;
+    node *fcfs = NULL;
+//
+
+    int burst = 0;
+
+    node *temp = header;
+
+
+    int o = 3;
+
+    while (temp != NULL)
+    {
+
+        if(o%3 ==0)
+        {
+            burst = temp->data;
+            fcfs = insertBack(fcfs,burst);
+        }
+
+
+        o+=1;
+        temp=temp->next;
+
+    }
+
+    cout << endl;
+    display(fcfs);
+    temp = fcfs;
+    float i = 1, total = 0;
+    cout<<"Waiting Times:-"<<endl;
+    while (temp != NULL)
+    {
+
+
+        cout<<"p"<<i<<": "<<total<<endl;
+        total+= temp->data;
+        i++;
+        temp=temp->next;
+    }
+    cout<<total<<"wheew"<<i;
+    float avg = 0;
+    avg = total/(i-1);
+    cout<<"Average Waiting Time: "<<avg;
 }
+
+void SJF()
+{
+    ifstream createFile("Inputs.txt");
+    node *header = NULL;
+    char x;
+    while(createFile.get(x)) //read every char in a file
+    {
+        if ( isdigit(x) ) // to ignore :
+        {
+            int ix = x - '0'; //to convert char to int
+            header=insertBack(header,ix);
+        }
+
+    }
+
+    display(header);
+    cout<<endl;
+    node *sjf = NULL;
+//
+
+    int burst = 0;
+
+    node *temp = header;
+
+
+    int o = 3, size = 0;
+
+    while (temp != NULL)
+    {
+
+        if(o%3 ==0)
+        {
+            burst = temp->data;
+            sjf = insertBack(sjf,burst);
+        }
+
+
+        o+=1;
+        temp=temp->next;
+        size++;
+    }
+
+    cout << endl;
+    display(sjf);
+
+    int j=0, i=0, min = 0;
+    node *avoidError = sjf;
+   //temp = sjf;
+	for (i=0;i < size - 1 ;i++)
+	{
+		min = i ;
+		for (j = i+1;j<size;j++)
+		{
+			if ( sjf->data < avoidError->data )
+			{
+				x = sjf->data;
+				sjf->data = avoidError->data;
+				avoidError->data = x;
+
+
+			}
+
+			avoidError->next = avoidError->next->next;
+			temp = avoidError;
+			avoidError = NULL;
+			//avoidError = temp->next;
+		}
+
+		//swap (a[i], a[min]);
+	}
+	cout<<endl<<temp<<endl;
+				cin>>i;
+}
+
 
 
 //  Linked List functions
