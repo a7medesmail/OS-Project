@@ -165,10 +165,9 @@ void FCFS()
         i++;
         temp=temp->next;
     }
-    cout<<total<<"wheew"<<i;
     float avg = 0;
     avg = total/(i-1);
-    cout<<"Average Waiting Time: "<<avg;
+    cout<<"Average Waiting Time: "<<avg<<endl<<endl;
 }
 
 void SJF()
@@ -205,44 +204,60 @@ void SJF()
         {
             burst = temp->data;
             sjf = insertBack(sjf,burst);
+            size++;
         }
 
 
         o+=1;
         temp=temp->next;
-        size++;
+
     }
 
     cout << endl;
     display(sjf);
+    int j=0, i=0;
+    //to sort a LL
+    node *temp1 = sjf;
+    node *temp2 = sjf;
+    for(i = 0; i <size; i++)
+    {
+        for (int j = 0; j <size-1; j++)
+        {
+            if(temp2->data < temp1->data)
+            {
+                int x = temp2->data;
+                temp2->data = temp1->data;
+                temp1->data = x;
+            }
+            temp1 = temp1->next;
+        }
+        temp1 = sjf;
+        temp2 = sjf->next;
+        for (int k = 0; k<i; k++)
+        {
+            temp2 = temp2->next;
+        }
+    }
 
-    int j=0, i=0, min = 0;
-    node *avoidError = sjf;
-   //temp = sjf;
-	for (i=0;i < size - 1 ;i++)
-	{
-		min = i ;
-		for (j = i+1;j<size;j++)
-		{
-			if ( sjf->data < avoidError->data )
-			{
-				x = sjf->data;
-				sjf->data = avoidError->data;
-				avoidError->data = x;
+    cout<<"it is working!!"<<endl;
+    display(sjf);
+
+    temp = sjf;
+    float z = 1, total = 0;
+    cout<<"Waiting Times:-"<<endl;
+    while (temp != NULL)
+    {
 
 
-			}
+        cout<<"p"<<z<<": "<<total<<endl;
+        total+= temp->data;
+        z++;
+        temp=temp->next;
+    }
+    float avg = 0;
+    avg = total/(z-1);
+    cout<<"Average Waiting Time: "<<avg<<endl<<endl;
 
-			avoidError->next = avoidError->next->next;
-			temp = avoidError;
-			avoidError = NULL;
-			//avoidError = temp->next;
-		}
-
-		//swap (a[i], a[min]);
-	}
-	cout<<endl<<temp<<endl;
-				cin>>i;
 }
 
 
