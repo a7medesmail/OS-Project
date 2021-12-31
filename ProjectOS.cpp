@@ -8,6 +8,7 @@
 #include<string.h>
 #include<cstdio>
 #include<string>
+#include<sstream>
 using namespace std;
 string Method = "Null", Preemptive = "OFF";
 int choice = 0;
@@ -34,6 +35,7 @@ int menu();
 void MethodMenu();
 void FCFS();
 void SJF();
+void PRIORITY();
 
 int main()
 {
@@ -67,6 +69,10 @@ int main()
             else if (Method == "SJF")
             {
                 SJF();
+            }
+            else if (Method == "Priority")
+            {
+                PRIORITY();
             }
 		}
 		else if(choice==4)
@@ -113,13 +119,34 @@ void FCFS()
 {
     ifstream createFile("Inputs.txt");
     node *header = NULL;
-    char x;
+    char x,y;
+    string trying="";
     while(createFile.get(x)) //read every char in a file
     {
         if ( isdigit(x) ) // to ignore :
         {
-            int ix = x - '0'; //to convert char to int
-            header=insertBack(header,ix);
+            y = x;
+            createFile.get(x);
+            if ( isdigit(x) )
+            {
+                string trying = "";
+                trying += y;
+                trying += x  ;
+
+
+                cout<<trying<<"look ";
+                stringstream wow(trying);
+                int wow2 = 0;
+                wow >> wow2;
+                header=insertBack(header,wow2);
+            }
+            else
+            {
+                int ix = y - '0'; //to convert char to int
+                header=insertBack(header,ix);
+            }
+
+
         }
 
     }
@@ -135,7 +162,7 @@ void FCFS()
 
 
     int o = 3;
-
+//add to LL
     while (temp != NULL)
     {
 
@@ -154,33 +181,57 @@ void FCFS()
     cout << endl;
     display(fcfs);
     temp = fcfs;
-    float i = 1, total = 0;
+    float i = 1, total = 0, result=0;
     cout<<"Waiting Times:-"<<endl;
+    //calculate FCFS
     while (temp != NULL)
     {
 
 
         cout<<"p"<<i<<": "<<total<<endl;
+        result+= total;
         total+= temp->data;
+
         i++;
         temp=temp->next;
     }
     float avg = 0;
-    avg = total/(i-1);
+    avg = result/(i-1);
     cout<<"Average Waiting Time: "<<avg<<endl<<endl;
 }
 
-void SJF()
+void SJF() //none preemptive
 {
     ifstream createFile("Inputs.txt");
     node *header = NULL;
-    char x;
+    char x,y;
+    string trying="";
     while(createFile.get(x)) //read every char in a file
     {
         if ( isdigit(x) ) // to ignore :
         {
-            int ix = x - '0'; //to convert char to int
-            header=insertBack(header,ix);
+            y = x;
+            createFile.get(x);
+            if ( isdigit(x) )
+            {
+                string trying = "";
+                trying += y;
+                trying += x  ;
+
+
+                cout<<trying<<"look ";
+                stringstream wow(trying);
+                int wow2 = 0;
+                wow >> wow2;
+                header=insertBack(header,wow2);
+            }
+            else
+            {
+                int ix = y - '0'; //to convert char to int
+                header=insertBack(header,ix);
+            }
+
+
         }
 
     }
@@ -196,7 +247,7 @@ void SJF()
 
 
     int o = 3, size = 0;
-
+//ADD to LL
     while (temp != NULL)
     {
 
@@ -213,9 +264,29 @@ void SJF()
 
     }
 
+
+    int j=0, i=0;
+    //this five line of code will remember the order of the processes (p1, p2, ...)
+    node *order =NULL;
+
+    for(i = 1; i <size+1; i++)
+    {
+        order = insertBack(order,i);
+    }
+    cout<<endl<<"Order is :";
+    display(order);
+    node *temp5 = order;//
+    node *temp6 = order;//order temps
+    //end of ordering LL
+
+
+
+
+
+
     cout << endl;
     display(sjf);
-    int j=0, i=0;
+
     //to sort a LL
     node *temp1 = sjf;
     node *temp2 = sjf;
@@ -228,37 +299,357 @@ void SJF()
                 int x = temp2->data;
                 temp2->data = temp1->data;
                 temp1->data = x;
+
+                int x3 = temp6->data;       //for order
+                temp6->data = temp5->data;
+                temp5->data = x3;
             }
             temp1 = temp1->next;
+            temp5 = temp5->next;//order
         }
         temp1 = sjf;
         temp2 = sjf->next;
+
+        temp5 = order;//order
+        temp6 = order->next;//order
         for (int k = 0; k<i; k++)
         {
             temp2 = temp2->next;
+            temp6 = temp6->next;
         }
     }
 
     cout<<"it is working!!"<<endl;
     display(sjf);
 
+    cout<<"order after !!"<<endl;
+    display(order);
+    //calculate SJF (none preemptive)
     temp = sjf;
-    float z = 1, total = 0;
+    float z = 1, total = 0, result=0;
     cout<<"Waiting Times:-"<<endl;
+    node *noOrder = NULL;
     while (temp != NULL)
     {
 
-
-        cout<<"p"<<z<<": "<<total<<endl;
+        noOrder = insertBack(noOrder,total);
+       // cout<<"p"<<z<<": "<<total<<endl;
+        result+=total;
         total+= temp->data;
         z++;
         temp=temp->next;
+
+    }
+
+
+    temp1 = order;
+    temp2 = order;
+    node *temp3 = noOrder;
+    node *temp4 = noOrder;
+    for(i = 0; i <size; i++)
+    {
+        for (int j = 0; j <size-1; j++)
+        {
+            if(temp2->data < temp1->data)
+            {
+                int x = temp2->data; //sort the order to show the result in 1 2 3 rather than 2 1 3
+                temp2->data = temp1->data;
+                temp1->data = x;
+
+                int x2 = temp4->data;//sort results with the same order of question (order variable)
+                temp4->data = temp3->data;
+                temp3->data = x2;
+
+            }
+            temp1 = temp1->next;
+            temp3 = temp3->next;
+        }
+        temp1 = order;
+        temp2 = order->next;
+
+        temp3 = noOrder;
+        temp4 = noOrder->next;
+        for (int k = 0; k<i; k++)
+        {
+            temp2 = temp2->next;
+            temp4 = temp4->next;
+        }
+    }
+
+    float z1 = 1, total2 = 0;
+    temp1 = noOrder;
+    while (temp1 != NULL)
+    {
+
+        cout<<"p"<<z1<<": "<<temp1->data<<endl;
+        z1++;
+        temp1=temp1->next;
+    }
+
+
+
+
+    float avg = 0;
+    avg = result/(z-1);
+    cout<<"Average Waiting Time: "<<avg<<endl<<endl;
+
+
+
+}
+
+void PRIORITY() //none preemptive
+{
+    ifstream createFile("Inputs.txt");
+    node *header = NULL;
+    char x,y;
+    string trying="";
+    while(createFile.get(x)) //read every char in a file
+    {
+        if ( isdigit(x) ) // to ignore :
+        {
+            y = x;
+            createFile.get(x);
+            if ( isdigit(x) )
+            {
+                string trying = "";
+                trying += y;
+                trying += x  ;
+
+
+                cout<<trying<<"look ";
+                stringstream wow(trying);
+                int wow2 = 0;
+                wow >> wow2;
+                header=insertBack(header,wow2);
+            }
+            else
+            {
+                int ix = y - '0'; //to convert char to int
+                header=insertBack(header,ix);
+            }
+
+
+        }
+
+    }
+
+    display(header);
+    cout<<endl;
+
+
+
+
+    node *BURST = NULL;
+    node *PRIORITY = NULL;
+//
+
+    int holder = 0;
+
+    node *tempBurst = header;
+    node *tempPriority = header;
+
+    int o = 3, o2 = 1, size = 0;
+//ADD to LL
+    while (tempPriority != NULL)
+    {
+
+
+        if(o%3 ==0)
+        {
+            holder = tempBurst->data;
+            BURST = insertBack(BURST,holder);
+        }
+        if (o2%3 ==0)
+        {
+            holder = tempPriority->data;
+            PRIORITY = insertBack(PRIORITY,holder);
+            size++;
+        }
+
+        o+=1;
+        o2+=1;
+        tempBurst=tempBurst->next;
+        tempPriority=tempPriority->next;
+
+    }
+    cout<<endl<<"Burst: ";
+    display(BURST);
+    cout<<endl<<"Priority: ";
+    display(PRIORITY);
+
+
+    int j=0, i=0;
+    //to sort a LL
+    node *temp1 = PRIORITY; //I will sort according to priority
+    node *temp2 = PRIORITY;
+    node *temp3 = BURST;
+    node *temp4 = BURST;//to change burst also with respect to priority
+
+
+    //this five line of code will remember the order of the processes (p1, p2, ...)
+    node *order =NULL;
+
+    for(i = 1; i <size+1; i++)
+    {
+        order = insertBack(order,i);
+    }
+    cout<<endl<<"Order is :";
+    display(order);
+    node *temp5 = order;//
+    node *temp6 = order;//order temps
+    //end of ordering
+
+
+    //sort LL
+    for(i = 0; i <size; i++)
+    {
+        for (int j = 0; j <size-1; j++)
+        {
+            if(temp2->data < temp1->data)
+            {
+                int x = temp2->data;//sort priority
+                temp2->data = temp1->data;
+                temp1->data = x;
+
+                int x2 = temp4->data;//sort burst with exact order of priority
+                temp4->data = temp3->data;
+                temp3->data = x2;
+
+                int x3 = temp6->data;       //for order
+                temp6->data = temp5->data;
+                temp5->data = x3;
+
+            }
+            temp1 = temp1->next;//priority var next
+            temp3 = temp3->next;//burst var next
+            temp5 = temp5->next;//order var next
+        }
+        temp1 = PRIORITY;   //priority var
+        temp2 = PRIORITY->next;   //priority var next
+
+        temp3 = BURST;      //burst var
+        temp4 = BURST->next;   //burst var next
+
+        temp5 = order;//order var
+        temp6 = order->next;//order var next
+        for (int k = 0; k<i; k++)
+        {
+            temp2 = temp2->next;//priority
+            temp4 = temp4->next;//burst
+            temp6 = temp6->next;//order
+        }
+    }
+    cout<<endl<<"BURST sorted: ";
+    display(BURST);
+    cout<<endl<<"Priority sorted: ";
+    display(PRIORITY);
+    cout<<endl<<"Order is :";
+    display(order);
+    //end of sorting
+
+
+
+    //now we calculate
+    //1- without order of p1, p2,...
+    temp1 = BURST;
+    float z = 1, total = 0, result = 0;
+    cout<<"Waiting Times:-"<<endl;
+    node *noOrder = NULL;
+    while (temp1 != NULL)
+    {
+
+        //int or1 = order->data;//this line is useless??
+      //  cout<<"p"<<or1<<": "<<total<<endl;
+        noOrder = insertBack(noOrder,total);
+        result+= total;
+        total+= temp1->data;
+
+        z++;
+        temp1=temp1->next;
+      //  order = order->next;
+    }
+//
+
+
+    //with order
+
+        //to sort a LL with sorting the order also
+    temp1 = order;
+    temp2 = order;
+    temp3 = noOrder;
+    temp4 = noOrder;
+    for(i = 0; i <size; i++)
+    {
+        for (int j = 0; j <size-1; j++)
+        {
+            if(temp2->data < temp1->data)
+            {
+                int x = temp2->data; //sort the order to show the result in 1 2 3 rather than 2 1 3
+                temp2->data = temp1->data;
+                temp1->data = x;
+
+                int x2 = temp4->data;//sort results with the same order of question (order variable)
+                temp4->data = temp3->data;
+                temp3->data = x2;
+
+            }
+            temp1 = temp1->next;
+            temp3 = temp3->next;
+        }
+        temp1 = order;
+        temp2 = order->next;
+
+        temp3 = noOrder;
+        temp4 = noOrder->next;
+        for (int k = 0; k<i; k++)
+        {
+            temp2 = temp2->next;
+            temp4 = temp4->next;
+        }
+    }
+
+
+
+
+
+
+
+      //  int or1 = noOrder->data;
+       // cout<<"p"<<or1<<": "<<total<<endl;
+
+
+    //show results using past outputs
+    float z1 = 1, total2 = 0;
+    temp1 = noOrder;
+    while (temp1 != NULL)
+    {
+
+        cout<<"p"<<z1<<": "<<temp1->data<<endl;
+        //total2+= temp1->data;
+        z1++;
+        temp1=temp1->next;
+
+
+
+        /*int or1 = order->data;
+       cout<<"p"<<or1<<": "<<total<<endl;
+        noOrder = insertBack(noOrder,total);
+        result+= total;
+        total+= temp1->data;
+
+        z++;
+        temp1=temp1->next;
+      //  order = order->next;*/
     }
     float avg = 0;
-    avg = total/(z-1);
+    avg = result/(z1-1);
+
     cout<<"Average Waiting Time: "<<avg<<endl<<endl;
 
 }
+
+
+
 
 
 
