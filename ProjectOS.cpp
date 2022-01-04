@@ -14,6 +14,7 @@ string Method = "Null", Preemptive = "OFF";
 int choice = 0;
 
 
+
 // Linked List Declaration (start)
 typedef struct node{
 	int data;
@@ -49,6 +50,8 @@ int main()
         choice = 0;
 		choice = menu();
 
+
+
 	    if(choice==1)
 	    {
             MethodMenu();
@@ -77,6 +80,12 @@ int main()
 		}
 		else if(choice==4)
 		{
+            FCFS();
+            SJF();
+            PRIORITY();
+
+
+            return 0;
 
 		}
 
@@ -151,7 +160,7 @@ void FCFS()
 
     }
 
-    display(header);
+    //display(header);
     cout<<endl;
     node *fcfs = NULL;
 //
@@ -179,10 +188,10 @@ void FCFS()
     }
 
     cout << endl;
-    display(fcfs);
+   // display(fcfs);
     temp = fcfs;
     float i = 1, total = 0, result=0;
-    cout<<"Waiting Times:-"<<endl;
+    cout<<"Waiting Times:- FCFS"<<endl;
     //calculate FCFS
     while (temp != NULL)
     {
@@ -236,7 +245,7 @@ void SJF() //none preemptive
 
     }
 
-    display(header);
+   // display(header);
     cout<<endl;
     node *sjf = NULL;
 //
@@ -273,8 +282,8 @@ void SJF() //none preemptive
     {
         order = insertBack(order,i);
     }
-    cout<<endl<<"Order is :";
-    display(order);
+   // cout<<endl<<"Order is :";
+   // display(order);
     node *temp5 = order;//
     node *temp6 = order;//order temps
     //end of ordering LL
@@ -284,8 +293,8 @@ void SJF() //none preemptive
 
 
 
-    cout << endl;
-    display(sjf);
+    //cout << endl;
+    //display(sjf);
 
     //to sort a LL
     node *temp1 = sjf;
@@ -319,15 +328,15 @@ void SJF() //none preemptive
         }
     }
 
-    cout<<"it is working!!"<<endl;
-    display(sjf);
+  //  cout<<"it is working!!"<<endl;
+   // display(sjf);
 
-    cout<<"order after !!"<<endl;
-    display(order);
+ //   cout<<"order after !!"<<endl;
+   // display(order);
     //calculate SJF (none preemptive)
     temp = sjf;
     float z = 1, total = 0, result=0;
-    cout<<"Waiting Times:-"<<endl;
+    cout<<"Waiting Times:- SJF non-preemptive"<<endl;
     node *noOrder = NULL;
     while (temp != NULL)
     {
@@ -433,8 +442,8 @@ void PRIORITY() //none preemptive
 
     }
 
-    display(header);
-    cout<<endl;
+    //display(header);
+    //cout<<endl;
 
 
 
@@ -472,10 +481,10 @@ void PRIORITY() //none preemptive
         tempPriority=tempPriority->next;
 
     }
-    cout<<endl<<"Burst: ";
-    display(BURST);
-    cout<<endl<<"Priority: ";
-    display(PRIORITY);
+   // cout<<endl<<"Burst: ";
+  //  display(BURST);
+  //  cout<<endl<<"Priority: ";
+   // display(PRIORITY);
 
 
     int j=0, i=0;
@@ -493,8 +502,8 @@ void PRIORITY() //none preemptive
     {
         order = insertBack(order,i);
     }
-    cout<<endl<<"Order is :";
-    display(order);
+    //cout<<endl<<"Order is :";
+   // display(order);
     node *temp5 = order;//
     node *temp6 = order;//order temps
     //end of ordering
@@ -539,12 +548,12 @@ void PRIORITY() //none preemptive
             temp6 = temp6->next;//order
         }
     }
-    cout<<endl<<"BURST sorted: ";
-    display(BURST);
-    cout<<endl<<"Priority sorted: ";
-    display(PRIORITY);
-    cout<<endl<<"Order is :";
-    display(order);
+   // cout<<endl<<"BURST sorted: ";
+ //   display(BURST);
+//    cout<<endl<<"Priority sorted: ";
+ //   display(PRIORITY);
+ //   cout<<endl<<"Order is :";
+//    display(order);
     //end of sorting
 
 
@@ -553,7 +562,7 @@ void PRIORITY() //none preemptive
     //1- without order of p1, p2,...
     temp1 = BURST;
     float z = 1, total = 0, result = 0;
-    cout<<"Waiting Times:-"<<endl;
+    cout<<"Waiting Times:- Priority non-preemptive"<<endl;
     node *noOrder = NULL;
     while (temp1 != NULL)
     {
