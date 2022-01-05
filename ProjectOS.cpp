@@ -1,3 +1,8 @@
+//   -std=c++11         add this when compiling "Runme"
+// Ahmed Esmail    21906571
+
+
+
 #include <iostream>
 #include<string>
 #include<string.h>
